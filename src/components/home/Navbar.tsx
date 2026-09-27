@@ -71,11 +71,10 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
               <Link
                 key={item.label}
                 to={item.path}
-                className={`relative py-2 text-[15px] transition lg:text-[16px] ${
-                  active
-                    ? "font-semibold text-[#67391f]"
-                    : "text-[#54483f] hover:text-[#67391f]"
-                }`}
+                className={`relative py-2 text-[15px] transition lg:text-[16px] ${active
+                  ? "font-semibold text-[#67391f]"
+                  : "text-[#54483f] hover:text-[#67391f]"
+                  }`}
               >
                 {item.label}
 
@@ -104,8 +103,9 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
           >
             <Heart size={24} strokeWidth={1.7} />
           </button>
-
+          {/* 
           <button
+
             aria-label="Shopping cart"
             className="relative text-[#4d3021] transition hover:scale-110"
           >
@@ -114,7 +114,21 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
             <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
               {cartCount}
             </span>
-          </button>
+          </button> */}
+          <Link
+            to="/cart"
+            aria-label="Shopping cart"
+            className="relative text-[#4d3021] transition hover:scale-110"
+          >
+            <ShoppingBag
+              size={26}
+              strokeWidth={1.7}
+            />
+
+            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
+              {cartCount}
+            </span>
+          </Link>
         </div>
 
         {/* =================================================
@@ -143,11 +157,10 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                   key={item.label}
                   to={item.path}
                   onClick={closeMobileMenu}
-                  className={`block border-b border-[#eee4d9] py-4 text-sm transition ${
-                    active
-                      ? "font-semibold text-[#75411f]"
-                      : "font-medium text-[#54483f]"
-                  }`}
+                  className={`block border-b border-[#eee4d9] py-4 text-sm transition ${active
+                    ? "font-semibold text-[#75411f]"
+                    : "font-medium text-[#54483f]"
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <span>{item.label}</span>
@@ -173,7 +186,11 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
               <span className="text-[11px]">Wishlist</span>
             </button>
 
-            <button className="relative flex flex-col items-center gap-1.5 text-[#67391f]">
+            <Link
+              to={"/cart"}
+              onClick={() =>
+                setMobileMenuOpen(false)
+              } className="relative flex flex-col items-center gap-1.5 text-[#67391f]">
               <ShoppingBag size={19} strokeWidth={1.7} />
 
               {cartCount > 0 && (
@@ -183,7 +200,17 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
               )}
 
               <span className="text-[11px]">Cart</span>
-            </button>
+            </Link>
+            {/* <Link
+              to="/cart"
+              onClick={() =>
+                setMobileMenuOpen(false)
+              }
+              className="flex items-center gap-2 text-sm text-[#67391f]"
+            >
+              <ShoppingBag size={19} />
+              Cart
+            </Link> */}
           </div>
         </div>
       )}

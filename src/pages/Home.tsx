@@ -20,7 +20,9 @@ export default function Home() {
       {/* <Navbar cartCount={0} /> */}
 
       <main>
+        <Navbar cartCount={0} />
         <Hero />
+
 
         <CategoryStrip />
 

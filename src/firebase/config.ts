@@ -1,21 +1,26 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { browserLocalPersistence, initializeAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBx_BxMJhAacR9NJPFtDEcUyzEBp5Iz9Dk",
-  authDomain: "kanthi-f128b.firebaseapp.com",
-  projectId: "kanthi-f128b",
-  storageBucket: "kanthi-f128b.firebasestorage.app",
-  messagingSenderId: "770359892033",
-  appId: "1:770359892033:web:d785f4ca4579f7bf914ec0",
-  measurementId: "G-C83NVX98TV",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = initializeAuth(app, {
+  persistence: browserLocalPersistence,
+});
+const db = getFirestore(app);
 
-export const db = getFirestore(app);
+export { db, app, auth };

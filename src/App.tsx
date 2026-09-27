@@ -1,35 +1,97 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-import Navbar from "./components/home/Navbar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
-function App() {
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AddProduct from "./pages/admin/AddProduct";
+
+import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
+
+export default function App() {
   return (
     <BrowserRouter>
-      <Navbar cartCount={0} />
-
       <Routes>
-        <Route path="/" element={<Home />} />
 
-        <Route path="/shop" element={<Shop />} />
+        {/* ================= PUBLIC ================= */}
 
         <Route
-          path="/about"
+          path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/shop"
+          element={<Shop />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        <Route
+          path="/cart"
+          element={<Cart />}
+        />
+
+        <Route
+          path="/checkout"
+          element={<Checkout />}
+        />
+
+        {/* ================= ADMIN LOGIN ================= */}
+
+        <Route
+          path="/admin/login"
+          element={<AdminLogin />}
+        />
+
+        {/* ================= PROTECTED ADMIN ================= */}
+
+        <Route
+          path="/admin"
           element={
-            <div className="min-h-screen bg-[#fbf3e7] p-10">About page</div>
+            <ProtectedAdminRoute>
+              <AdminDashboard />
+            </ProtectedAdminRoute>
           }
         />
 
         <Route
-          path="/contact"
+          path="/admin/products"
           element={
-            <div className="min-h-screen bg-[#fbf3e7] p-10">Contact page</div>
+            <ProtectedAdminRoute>
+              <AdminProducts />
+            </ProtectedAdminRoute>
           }
         />
+
+        <Route
+          path="/admin/products/new"
+          element={
+            <ProtectedAdminRoute>
+              <AddProduct />
+            </ProtectedAdminRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
