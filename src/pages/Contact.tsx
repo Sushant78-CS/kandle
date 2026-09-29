@@ -21,8 +21,6 @@ export default function Contact() {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const whatsappNumber = "919876543210";
-
         const whatsappMessage = `🕯️ *Kandle Contact Message*
 
 *Name:* ${name.trim()}
@@ -31,7 +29,7 @@ export default function Contact() {
 *Message:*
 ${message.trim()}`;
 
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        const whatsappUrl = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(
             whatsappMessage
         )}`;
 
@@ -170,7 +168,7 @@ ${message.trim()}`;
                             </p>
 
                             <a
-                                href="https://wa.me/919876543210"
+                                href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#75411f] transition hover:bg-[#f8ecdc]"
