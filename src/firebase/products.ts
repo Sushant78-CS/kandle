@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
+
 import { db } from "./config";
 
 export type ProductCategory = "Decorative" | "Gift" | "Floral" | "Aromatic";
@@ -23,9 +24,9 @@ export interface ProductData {
   isActive: boolean;
 }
 
-// ============================================================
-// COLLECTION
-// ============================================================
+export interface Product extends ProductData {
+  id: string;
+}
 
 const productsCollection = collection(db, "products");
 
@@ -33,7 +34,7 @@ const productsCollection = collection(db, "products");
 // GET ALL PRODUCTS
 // ============================================================
 
-export async function getProducts(): Promise<(ProductData & { id: string })[]> {
+export async function getProducts(): Promise<Product[]> {
   try {
     const productsQuery = query(
       productsCollection,

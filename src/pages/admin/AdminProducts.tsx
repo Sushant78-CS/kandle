@@ -197,7 +197,12 @@ export default function AdminProducts() {
                                         </button>
 
                                         <button
-                                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#dfd0c0] text-[#67391f]"
+                                            type="button"
+                                            onClick={() =>
+                                                navigate(`/admin/products/${product.id}/edit`)
+                                            }
+                                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#dfd0c0] text-[#67391f] transition hover:bg-[#f8ecdc]"
+                                            aria-label={`Edit ${product.name}`}
                                         >
                                             <Edit3 size={15} />
                                         </button>

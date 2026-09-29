@@ -13,16 +13,15 @@ interface CartStore {
   items: CartItem[];
 
   addToCart: (product: CartItem) => void;
-
   removeFromCart: (id: string) => void;
 
   increaseQuantity: (id: string) => void;
-
   decreaseQuantity: (id: string) => void;
 
   clearCart: () => void;
 
   getTotal: () => number;
+  getCartCount: () => number;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -30,11 +29,18 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
 
+      // ========================================================
+      // ADD TO CART
+      // ========================================================
+
       addToCart: (product) => {
         set((state) => {
-          const existing = state.items.find((item) => item.id === product.id);
+          const existingItem = state.items.find(
+            (item) => item.id === product.id,
+          );
 
-          if (existing) {
+          // Product already exists
+          if (existingItem) {
             return {
               items: state.items.map((item) =>
                 item.id === product.id
@@ -47,6 +53,7 @@ export const useCartStore = create<CartStore>()(
             };
           }
 
+          // New product
           return {
             items: [
               ...state.items,
@@ -59,11 +66,19 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
+      // ========================================================
+      // REMOVE COMPLETELY
+      // ========================================================
+
       removeFromCart: (id) => {
         set((state) => ({
           items: state.items.filter((item) => item.id !== id),
         }));
       },
+
+      // ========================================================
+      // INCREASE
+      // ========================================================
 
       increaseQuantity: (id) => {
         set((state) => ({
@@ -77,6 +92,10 @@ export const useCartStore = create<CartStore>()(
           ),
         }));
       },
+
+      // ========================================================
+      // DECREASE
+      // ========================================================
 
       decreaseQuantity: (id) => {
         set((state) => ({
@@ -93,9 +112,19 @@ export const useCartStore = create<CartStore>()(
         }));
       },
 
+      // ========================================================
+      // CLEAR
+      // ========================================================
+
       clearCart: () => {
-        set({ items: [] });
+        set({
+          items: [],
+        });
       },
+
+      // ========================================================
+      // TOTAL
+      // ========================================================
 
       getTotal: () => {
         return get().items.reduce(
@@ -103,9 +132,18 @@ export const useCartStore = create<CartStore>()(
           0,
         );
       },
+
+      // ========================================================
+      // CART COUNT
+      // ========================================================
+
+      getCartCount: () => {
+        return get().items.reduce((count, item) => count + item.quantity, 0);
+      },
     }),
+
     {
-      name: "kanthi-candles-cart",
+      name: "kandle-cart",
     },
   ),
 );

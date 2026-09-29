@@ -1,4 +1,5 @@
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function CTASection() {
   return (
@@ -15,13 +16,13 @@ export default function CTASection() {
           there's a little glow waiting for you.
         </p>
 
-        <a
-          href="#shop"
+        <Link
+          to={"/shop"}
           className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#75411f] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#633419]"
         >
           Shop Candles
           <ArrowRight size={17} />
-        </a>
+        </Link>
       </div>
     </section>
   );

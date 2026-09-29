@@ -17,10 +17,19 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AddProduct from "./pages/admin/AddProduct";
 
 import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
+import Favorites from "./pages/Favorites";
+import ProductDetails from "./pages/ProductDetails";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import ScrollToTop from "./components/home/ScrollToTop";
+import EditProduct from "./pages/admin/EditProduct";
+import { Toaster } from "sonner";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" richColors />
+      <ScrollToTop /> 
       <Routes>
 
         {/* ================= PUBLIC ================= */}
@@ -34,6 +43,21 @@ export default function App() {
           path="/shop"
           element={<Shop />}
         />
+
+        <Route
+          path="/favorites"
+          element={<Favorites />}
+        />
+
+        <Route
+          path="/shop/:productId"
+          element={<ProductDetails />}
+        />
+
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/contact" element={<Contact />} />
 
         <Route
           path="/login"
@@ -87,6 +111,15 @@ export default function App() {
           element={
             <ProtectedAdminRoute>
               <AddProduct />
+            </ProtectedAdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/products/:productId/edit"
+          element={
+            <ProtectedAdminRoute>
+              <EditProduct />
             </ProtectedAdminRoute>
           }
         />

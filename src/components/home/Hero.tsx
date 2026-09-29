@@ -7,6 +7,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const slides = [
   {
@@ -107,10 +108,9 @@ export default function Hero() {
               transition-all
               duration-1000
               ease-in-out
-              ${
-                currentSlide === index
-                  ? "scale-100 opacity-100"
-                  : "scale-[1.03] opacity-0"
+              ${currentSlide === index
+                ? "scale-100 opacity-100"
+                : "scale-[1.03] opacity-0"
               }
             `}
           />
@@ -267,8 +267,8 @@ export default function Hero() {
             {/* Buttons */}
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="#shop"
+              <Link
+                to={"/shop"}
                 className="
                   group
                   inline-flex
@@ -298,7 +298,7 @@ export default function Hero() {
                     group-hover:translate-x-1
                   "
                 />
-              </a>
+              </Link>
 
               <a
                 href="#about"
@@ -506,10 +506,9 @@ export default function Hero() {
                 border-white
                 transition-all
                 duration-300
-                ${
-                  currentSlide === index
-                    ? "h-2.5 w-7 bg-[#7b421f]"
-                    : "h-2.5 w-2.5 bg-transparent hover:bg-white/70"
+                ${currentSlide === index
+                  ? "h-2.5 w-7 bg-[#7b421f]"
+                  : "h-2.5 w-2.5 bg-transparent hover:bg-white/70"
                 }
               `}
             />
@@ -559,10 +558,9 @@ export default function Hero() {
                 transition-all
                 duration-1000
                 ease-in-out
-                ${
-                  currentSlide === index
-                    ? "scale-100 opacity-100"
-                    : "scale-[1.03] opacity-0"
+                ${currentSlide === index
+                  ? "scale-100 opacity-100"
+                  : "scale-[1.03] opacity-0"
                 }
               `}
             />
@@ -672,10 +670,9 @@ export default function Hero() {
                   border-white
                   transition-all
                   duration-300
-                  ${
-                    currentSlide === index
-                      ? "h-2 w-6 bg-[#7b421f]"
-                      : "h-2 w-2 bg-transparent"
+                  ${currentSlide === index
+                    ? "h-2 w-6 bg-[#7b421f]"
+                    : "h-2 w-2 bg-transparent"
                   }
                 `}
               />
@@ -794,8 +791,8 @@ export default function Hero() {
           ================================================== */}
 
           <div className="mt-5 flex flex-wrap gap-2.5">
-            <a
-              href="#shop"
+            <Link
+              to={"/shop"}
               className="
                 group
                 inline-flex
@@ -822,7 +819,7 @@ export default function Hero() {
                   group-hover:translate-x-1
                 "
               />
-            </a>
+            </Link>
 
             <a
               href="#about"

@@ -1,15 +1,48 @@
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import {
+  Heart,
+  Menu,
+  ShoppingBag,
+  X,
+} from "lucide-react";
+
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 
-interface NavbarProps {
-  cartCount?: number;
-}
+import {
+  Link,
+  useLocation,
+} from "react-router-dom";
 
-export default function Navbar({ cartCount = 0 }: NavbarProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+import { useCartStore } from "../../store/cartStore";
+import { useFavoritesStore } from "../../store/favoritesStore";
+
+export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
   const location = useLocation();
+
+  // ============================================================
+  // CART STORE
+  // ============================================================
+
+  const cartItems = useCartStore(
+    (state) => state.items
+  );
+
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const favorites = useFavoritesStore(
+    (state) => state.favorites
+  );
+
+  const favoriteCount = favorites.length;
+
+  // ============================================================
+  // NAVIGATION
+  // ============================================================
 
   const navItems = [
     {
@@ -42,27 +75,34 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
     setMobileMenuOpen(false);
   };
 
+  // ============================================================
+  // UI
+  // ============================================================
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#eadfd2] bg-[#fffdf9]/95 backdrop-blur-md">
       <div className="mx-auto flex h-[76px] max-w-[1450px] items-center justify-between px-5 sm:px-8 lg:h-[84px] lg:px-12">
-        {/* =================================================
+
+        {/* =====================================================
             LOGO
-        ================================================== */}
+        ====================================================== */}
+
         <Link
           to="/"
           onClick={closeMobileMenu}
           className="flex h-full items-center"
         >
           <img
-            src="/logo.jpg"
-            alt="Kanthi Candles"
+            src="/kandleLogo.png"
+            alt="Kandle"
             className="h-[68px] w-auto object-contain sm:h-[72px] lg:h-[76px]"
           />
         </Link>
 
-        {/* =================================================
+        {/* =====================================================
             DESKTOP NAVIGATION
-        ================================================== */}
+        ====================================================== */}
+
         <nav className="hidden items-center gap-10 md:flex lg:gap-12">
           {navItems.map((item) => {
             const active = isActive(item.path);
@@ -86,35 +126,44 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
           })}
         </nav>
 
-        {/* =================================================
+        {/* =====================================================
             DESKTOP ACTIONS
-        ================================================== */}
+        ====================================================== */}
+
         <div className="hidden items-center gap-5 md:flex lg:gap-6">
-          <button
+
+          {/* SEARCH */}
+          {/* <button
+            type="button"
             aria-label="Search"
             className="text-[#4d3021] transition hover:scale-110"
           >
-            <Search size={24} strokeWidth={1.7} />
-          </button>
+            <Search
+              size={24}
+              strokeWidth={1.7}
+            />
+          </button> */}
 
-          <button
-            aria-label="Wishlist"
-            className="text-[#4d3021] transition hover:scale-110"
-          >
-            <Heart size={24} strokeWidth={1.7} />
-          </button>
-          {/* 
-          <button
-
-            aria-label="Shopping cart"
+          {/* WISHLIST */}
+          <Link
+            to="/favorites"
+            aria-label="My favourites"
             className="relative text-[#4d3021] transition hover:scale-110"
           >
-            <ShoppingBag size={25} strokeWidth={1.7} />
+            <Heart
+              size={24}
+              strokeWidth={1.7}
+            />
 
-            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
-              {cartCount}
-            </span>
-          </button> */}
+            {favoriteCount > 0 && (
+              <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
+                {favoriteCount}
+              </span>
+            )}
+          </Link>
+
+
+          {/* CART */}
           <Link
             to="/cart"
             aria-label="Shopping cart"
@@ -125,29 +174,45 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
               strokeWidth={1.7}
             />
 
-            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
-              {cartCount}
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[10px] font-bold text-white">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
 
-        {/* =================================================
+        {/* =====================================================
             MOBILE MENU BUTTON
-        ================================================== */}
+        ====================================================== */}
+
         <button
-          onClick={() => setMobileMenuOpen((previous) => !previous)}
+          type="button"
+          onClick={() =>
+            setMobileMenuOpen(
+              (previous) => !previous
+            )
+          }
           className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e5d8ca] bg-[#fffaf4] text-[#67391f] transition hover:bg-[#f8eee3] md:hidden"
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
+          {mobileMenuOpen ? (
+            <X size={21} />
+          ) : (
+            <Menu size={21} />
+          )}
         </button>
       </div>
 
-      {/* =====================================================
+      {/* =======================================================
           MOBILE MENU
-      ====================================================== */}
+      ======================================================== */}
+
       {mobileMenuOpen && (
         <div className="border-t border-[#eadfd2] bg-[#fffdf9] shadow-lg md:hidden">
+
+          {/* MOBILE NAVIGATION */}
+
           <nav className="px-5 py-3">
             {navItems.map((item) => {
               const active = isActive(item.path);
@@ -163,7 +228,9 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                     }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span>{item.label}</span>
+                    <span>
+                      {item.label}
+                    </span>
 
                     {active && (
                       <span className="h-1.5 w-1.5 rounded-full bg-[#75411f]" />
@@ -174,24 +241,62 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
             })}
           </nav>
 
-          {/* Mobile actions */}
-          <div className="grid grid-cols-3 border-t border-[#eadfd2] px-5 py-5">
-            <button className="flex flex-col items-center gap-1.5 text-[#67391f]">
-              <Search size={19} strokeWidth={1.7} />
-              <span className="text-[11px]">Search</span>
-            </button>
+          {/* =================================================
+              MOBILE ACTIONS
+          ================================================== */}
 
-            <button className="flex flex-col items-center gap-1.5 text-[#67391f]">
-              <Heart size={19} strokeWidth={1.7} />
-              <span className="text-[11px]">Wishlist</span>
-            </button>
+          <div className="grid grid-cols-2 border-t border-[#eadfd2] px-5 py-5">
+
+            {/* SEARCH */}
+
+            {/* <button
+              type="button"
+              className="flex flex-col items-center gap-1.5 text-[#67391f]"
+            >
+              <Search
+                size={19}
+                strokeWidth={1.7}
+              />
+
+              <span className="text-[11px]">
+                Search
+              </span>
+            </button> */}
+
+            {/* WISHLIST */}
+            <Link
+              to="/favorites"
+              onClick={closeMobileMenu}
+              className="relative flex flex-col items-center gap-1.5 text-[#67391f]"
+            >
+              <Heart
+                size={19}
+                strokeWidth={1.7}
+              />
+
+              {favoriteCount > 0 && (
+                <span className="absolute right-[calc(50%-17px)] top-[-5px] flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[9px] font-bold text-white">
+                  {favoriteCount}
+                </span>
+              )}
+
+              <span className="text-[11px]">
+                Wishlist
+              </span>
+            </Link>
+
+
+            {/* CART */}
 
             <Link
-              to={"/cart"}
-              onClick={() =>
-                setMobileMenuOpen(false)
-              } className="relative flex flex-col items-center gap-1.5 text-[#67391f]">
-              <ShoppingBag size={19} strokeWidth={1.7} />
+              to="/cart"
+              onClick={closeMobileMenu}
+              className="relative flex flex-col items-center gap-1.5 text-[#67391f]"
+            >
+              <ShoppingBag
+                size={19}
+                strokeWidth={1.7}
+              />
 
               {cartCount > 0 && (
                 <span className="absolute right-[calc(50%-17px)] top-[-5px] flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8a4b29] px-1 text-[9px] font-bold text-white">
@@ -199,18 +304,10 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                 </span>
               )}
 
-              <span className="text-[11px]">Cart</span>
+              <span className="text-[11px]">
+                Cart
+              </span>
             </Link>
-            {/* <Link
-              to="/cart"
-              onClick={() =>
-                setMobileMenuOpen(false)
-              }
-              className="flex items-center gap-2 text-sm text-[#67391f]"
-            >
-              <ShoppingBag size={19} />
-              Cart
-            </Link> */}
           </div>
         </div>
       )}

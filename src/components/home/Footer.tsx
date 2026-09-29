@@ -1,4 +1,5 @@
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -24,21 +25,21 @@ export default function Footer() {
             <h3 className="text-sm font-semibold">Quick Links</h3>
 
             <div className="mt-4 flex flex-col gap-3 text-sm text-white/60">
-              <a href="#home" className="hover:text-white">
+              <Link to={"/"} className="hover:text-white">
                 Home
-              </a>
+              </Link>
 
-              <a href="#shop" className="hover:text-white">
+              <Link to={"/shop"} className="hover:text-white">
                 Shop
-              </a>
+              </Link>
 
-              <a href="#about" className="hover:text-white">
+              <Link to={"/about"} className="hover:text-white">
                 About
-              </a>
+              </Link>
 
-              <a href="#contact" className="hover:text-white">
+              <Link to={"/contact"} className="hover:text-white">
                 Contact
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -47,16 +48,29 @@ export default function Footer() {
             <h3 className="text-sm font-semibold">Connect</h3>
 
             <div className="mt-4 flex flex-col gap-3 text-sm text-white/60">
-              <a href="#" className="flex items-center gap-2 hover:text-white">
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/kanthicandles?stkn=MXNyb2xnMmpwdGViNg%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:text-white"
+              >
                 <FaInstagram size={16} />
                 @kanthicandles
               </a>
 
-              <a href="#" className="flex items-center gap-2 hover:text-white">
+              {/* WhatsApp */}
+              <a
+                href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:text-white"
+              >
                 <FaWhatsapp size={16} />
                 WhatsApp
               </a>
 
+              {/* Gmail */}
               <a
                 href="mailto:kanthi.co.0101@gmail.com"
                 className="break-all hover:text-white"
@@ -68,7 +82,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/40">
-          © {new Date().getFullYear()} Kanthi Candles. All rights reserved.
+          © {new Date().getFullYear()} Kandle. All rights reserved.
         </div>
       </div>
     </footer>
